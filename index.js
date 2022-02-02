@@ -20,10 +20,13 @@ mongoose
 
 app.get("/", (req, res) => res.send("hello world hello~"));
 
+// register route
 app.post("/register", (req, res) => {
     //get data from client when register, they put in database.
 
     const user = new User(req.body);
+
+    // password crypt
     user.save((err, doc) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).json({
