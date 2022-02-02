@@ -34,4 +34,4 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 // mongoose.model( "Using Name==alias", using Schema )
 
-module.exports = { user };
+module.exports = { User };
