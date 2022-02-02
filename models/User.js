@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10; // saltRounds set lang of salt number.
+const jwt = require("jsonwebtoken");
 
 const userSchema = mongoose.Schema({
     name: {
@@ -14,7 +15,7 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        maxlength: 5,
+        // maxlength: 5,
     },
     lastname: {
         type: String,
@@ -54,8 +55,31 @@ userSchema.pre("save", function (next) {
                 next(); // call real "save" function.
             });
         });
+    } else {
+        next(); // if not change password, just go next();
     }
 });
+
+userSchema.methods.comparePassword = function (plainPW, callBack) {
+    // this logic is that unencrypted password(client input) encrypt, so that compare db saved password
+    bcrypt.compare(plainPW, this.password, function (err, isMatch) {
+        if (err) return callBack(err);
+        callBack(null, isMatch);
+    });
+};
+
+userSchema.methods.generateToken = function (callBack) {
+    const user = this;
+    // using jsonwebtoken, make token.
+    // jwt logic : user._id + "secretToken" = specific jwt value
+    // ==> using "secretToken" => you get user._id value.
+    const token = jwt.sign(user._id.toHexString(), "secretToken");
+    user.token = token;
+    user.save(function (err, user) {
+        if (err) return callBack(err);
+        callBack(null, user);
+    });
+};
 
 const User = mongoose.model("User", userSchema);
 // mongoose.model( "Using Name==alias", using Schema )
