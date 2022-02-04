@@ -81,7 +81,30 @@ userSchema.methods.generateToken = function (callBack) {
     });
 };
 
+// methods : method must create instance by keyward "New".
+// statics : isn't
+
+userSchema.statics.findByToken = function (token, callBack) {
+    var user = this;
+
+    // decode the token.
+    jwt.verify(token, "secretToken", function (err, decoded) {
+        // .verify(token that will decode, key used to encrypt)
+
+        // find User using decoded(===userId),
+        // and verify that token that comes from Client and token that saved in DB
+
+        user.findOne(
+            { _id: decoded, token: token }, // .findOne is origin method
+            function (err, user) {
+                if (err) return callBack(err);
+                callBack(null, user);
+            },
+        );
+    });
+};
+
 const User = mongoose.model("User", userSchema);
-// mongoose.model( "Using Name==alias", using Schema )
+// mongoose.model( "Using Name(===alias)", using Schema )
 
 module.exports = { User };
