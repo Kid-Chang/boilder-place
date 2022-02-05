@@ -1,4 +1,5 @@
-#Node + React 기본 학습
+# Node + React 기본 학습
+
 readme는 한글로,,, 주석은 영어로,,,
 
 ## 0201 학습상황.
@@ -22,3 +23,49 @@ jwt 토큰을 이용한 로그인 로직.
 /api/product/create 등 세분화해서 작성해야한다.
 
 미들웨어란? 리퀘스트를 받고 콜백함수를 실행하기전에 특정한 액션을 하는 것.
+
+## 0204
+
+Concurrently 로 메인폴더에서 npm run backend 와 client폴더에서 npm run start 해야하는 걸 한번에 설정가능하도록 변경.
+`"dev": "concurrently \"npm run backend\" \"npm run start --prefix client\" "`
+
+-   리덕스 개념을 들으면서 pure function에 대해 찾아봤다.
+
+pure function(순수함수)은
+input : 어떠한 함수에서 외부의 데이터를 직접적으로 사용하지 않고, 파라미터로 받습니다.
+output : input값에 의해 output이 결정되기 때문에 외부의 값들이 변경되더라도 함수 자체에는 외부에 영향을 받지 않기 때문에 Side-Effect(부작용)가 없다.
+
+순수 함수:
+
+```
+def pure_function(x, y):
+
+temp = x + 2*y
+
+return temp / (2*x + y)
+```
+
+Impure function:
+
+비순수 함수:
+
+```
+some_list = [] def impure(arg):  some_list.append(arg)
+```
+
+관련 글 참조: https://velog.io/@kimu2370/redux%EC%9D%98-reducer%EA%B0%80-%EC%88%9C%EC%88%98%ED%95%A8%EC%88%98%EC%9D%B8-%EC%9D%B4%EC%9C%A0
+
+reudcer는 pure fuction이라서 하면 안되는 것들.
+
+1. mutate its argument.
+2. perform side-effects like API calls and routing transitions.
+3. Call non-pure functions, eg, `Date.now()` , ` Math.random()`.
+
+redux dispatch는 원래 plainText인 object 형식만 받아서 인식한다. 하지만,
+
+redux-thunk, redux-promise 미들웨어를 이용하면 각각 redux dispatch가 function과 promise를 받을수 있도록 만들어 준다.
+
+## 0205
+
+error: Expected an assignment or function call and instead saw an expression
+-> solution: https://helicopter55.tistory.com/2

@@ -7,7 +7,18 @@ function LandingPage() {
             console.log(res.data);
         });
     }, []);
-    return <div>LandingPage</div>;
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+            }}
+        >
+            LandingPage
+        </div>
+    );
 }
 
 export default LandingPage;
