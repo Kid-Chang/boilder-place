@@ -64,8 +64,13 @@ reudcer는 pure fuction이라서 하면 안되는 것들.
 redux dispatch는 원래 plainText인 object 형식만 받아서 인식한다. 하지만,
 
 redux-thunk, redux-promise 미들웨어를 이용하면 각각 redux dispatch가 function과 promise를 받을수 있도록 만들어 준다.
+이 프로젝트는 이 두개를 이용해 디스패치단에 axios를 사용하고 나온 값을 리덕스에 저장한다.
 
 ## 0205
 
 error: Expected an assignment or function call and instead saw an expression
 -> solution: https://helicopter55.tistory.com/2
+
+hoc : higer-order component is a function that takes a componet and returns a new component. 예시는 hoc 폴더내 readme 참고.
+이걸 이용해서 컴포넌트를 감싸면서 인증을 담당하는 컴포넌트를 만듬.
+이 프로젝트에선 로그인한 유저는 로그인 페이지와 회원가입 페이지를 접근할 수 없도록 만듬.

@@ -91,7 +91,7 @@ app.get("/api/users/auth", auth, (req, res) => {
         isAuth: true,
         email: req.user.email,
         name: req.user.name,
-        role: req.user.role,
+        role: req.user.role, //role === 0 -> normal user, 1 -> admin, 2-> Admin of a specific department..
     });
 });
 
