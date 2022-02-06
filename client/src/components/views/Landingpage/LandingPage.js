@@ -9,15 +9,27 @@ import { Row } from "antd";
 function LandingPage() {
     const [Movies, setMovies] = useState([]);
     const [MainMovie, setMainMovie] = useState();
-
+    const [PageViewCount, setPageViewCount] = useState(0);
     useEffect(() => {
         const endPoint = `${API_URL}movie/popular?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=ko&page=1`;
-        axios.get(endPoint).then((res) => {
-            console.log(res.data.results);
-            setMovies(res.data.results);
-            setMainMovie(res.data.results[0]);
-        });
+        fetchMovie(endPoint);
     }, []);
+
+    const fetchMovie = (endPoint) => {
+        axios.get(endPoint).then((res) => {
+            console.log(res.data);
+            setMovies([...Movies, ...res.data.results]);
+            setMainMovie(res.data.results[0]);
+            setPageViewCount(res.data.page);
+        });
+    };
+
+    const MoreMovie = () => {
+        const endPoint = `${API_URL}movie/popular?api_key=${
+            process.env.REACT_APP_MOVIE_API_KEY
+        }&language=ko&page=${PageViewCount + 1}`;
+        fetchMovie(endPoint);
+    };
     // useEffect(
     //     (e) => {
     //         console.log(MainMovie.backdrop_path);
@@ -61,7 +73,7 @@ function LandingPage() {
                 </Row>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <button>Load More</button>
+                <button onClick={MoreMovie}>Load More</button>
             </div>
         </div>
     );
